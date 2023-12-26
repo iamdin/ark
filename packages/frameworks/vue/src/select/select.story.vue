@@ -13,12 +13,15 @@ const advancedItems = ref([
 ])
 
 const value = ref(['vue'])
+
+const disabled = ref(false)
 </script>
 
 <template>
   <Story title="Select">
     <Variant title="Basic">
-      <Select.Root :items="basicItems">
+      <button @click="disabled = !disabled">Disabled {{ disabled }}</button>
+      <Select.Root :items="basicItems" :disabled="disabled">
         <Select.Label>Framework</Select.Label>
         <Select.Control>
           <Select.Trigger>

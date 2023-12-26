@@ -1,4 +1,5 @@
-import { computed, defineComponent, type PropType } from 'vue'
+import * as select from '@zag-js/select'
+import { computed, defineComponent, type PropType, type SetupContext } from 'vue'
 import { ark, type HTMLArkProps } from '../factory'
 import { PresenceProvider, usePresence, type UsePresenceProps } from '../presence'
 import { emits as presenceEmits } from '../presence/presence.props'
@@ -11,41 +12,20 @@ export interface SelectProps<T extends CollectionItem>
   extends Assign<HTMLArkProps<'div'>, UseSelectProps<T>>,
     UsePresenceProps {}
 
-export const Select = defineComponent({
-  name: 'Select',
-  props: {
-    ...props,
-    items: {
-      type: Array as PropType<UseSelectProps<any>['items']>,
-      required: true,
-    },
-    itemToString: {
-      type: Function as PropType<UseSelectProps<any>['itemToString']>,
-    },
-    itemToValue: {
-      type: Function as PropType<UseSelectProps<any>['itemToValue']>,
-    },
-    isItemDisabled: {
-      type: Function as PropType<UseSelectProps<any>['isItemDisabled']>,
-    },
-    present: {
-      type: Boolean as PropType<UsePresenceProps['present']>,
-      default: undefined,
-    },
-    lazyMount: {
-      type: Boolean as PropType<UsePresenceProps['lazyMount']>,
-      default: false,
-    },
-    unmountOnExit: {
-      type: Boolean as PropType<UsePresenceProps['unmountOnExit']>,
-      default: false,
-    },
-  },
-  emits: {
-    ...emits,
-    ...presenceEmits,
-  },
-  setup(props, { slots, attrs, emit }) {
+const SelectEmits = [...emits, ...presenceEmits] as const
+type EmitOptions = typeof SelectEmits
+
+export const Select = defineComponent(
+  <T extends CollectionItem>(
+    props: SelectProps<T>,
+    {
+      attrs,
+      slots,
+      emit,
+    }: SetupContext<{
+      'highlight-change': select.Context<T>['onHighlightChange']
+    }>,
+  ) => {
     const api = useSelect(props, emit)
 
     const presenceProps = computed(() => ({
@@ -64,4 +44,23 @@ export const Select = defineComponent({
       </ark.div>
     )
   },
-})
+  {
+    name: 'Select',
+    props: {
+      ...props,
+      // Collection Props
+      items: Array as PropType<UseSelectProps['items']>,
+      itemToString: Function as PropType<UseSelectProps['itemToString']>,
+      itemToValue: Function as PropType<UseSelectProps['itemToValue']>,
+      isItemDisabled: Function as PropType<UseSelectProps['isItemDisabled']>,
+      // Presence Props
+      present: {
+        type: Boolean,
+        default: undefined,
+      },
+      lazyMount: Boolean,
+      unmountOnExit: Boolean,
+    },
+    emits: {},
+  },
+)

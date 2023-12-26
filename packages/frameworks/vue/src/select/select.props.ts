@@ -1,10 +1,10 @@
 import type { Context } from '@zag-js/select'
 import type { PropType } from 'vue'
-import { declareEmits } from '../utils'
+import type { CollectionItem } from '../types'
 
-export const props = {
+export const props = <T extends CollectionItem>() => ({
   closeOnSelect: {
-    type: Boolean as PropType<Context['closeOnSelect']>,
+    type: Boolean as PropType<Context<T>['closeOnSelect']>,
     default: undefined,
   },
   dir: {
@@ -62,11 +62,6 @@ export const props = {
   modelValue: {
     type: Array as PropType<Context['value']>,
   },
-} as const
+})
 
-export const emits = declareEmits([
-  'highlight-change',
-  'open-change',
-  'value-change',
-  'update:modelValue',
-])
+export const emits = ['highlight-change', 'open-change', 'value-change', 'update:modelValue']

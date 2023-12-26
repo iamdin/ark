@@ -1,17 +1,13 @@
 import { defineComponent } from 'vue'
 import { ark, type HTMLArkProps } from '../factory'
-import { usePresenceContext, type PresenceProps } from '../presence'
+import { usePresenceContext } from '../presence'
 import { emits, props } from '../presence/presence.props'
-import type { Assign } from '../types'
 import { useSelectContext } from './select-context'
 
-export interface SelectContentProps extends Assign<HTMLArkProps<'div'>, PresenceProps> {}
+export interface SelectContentProps extends HTMLArkProps<'div'> {}
 
-export const SelectContent = defineComponent({
-  name: 'SelectContent',
-  props,
-  emits,
-  setup(_, { slots, attrs }) {
+export const SelectContent = defineComponent<SelectContentProps>(
+  (_, { slots, attrs }) => {
     const api = useSelectContext()
     const presenceApi = usePresenceContext()
 
@@ -25,4 +21,9 @@ export const SelectContent = defineComponent({
       </>
     )
   },
-})
+  {
+    name: 'SelectContent',
+    props,
+    emits,
+  },
+)
