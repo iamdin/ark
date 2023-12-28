@@ -13,7 +13,7 @@ const value = ref({
 <template>
   <Story title="Menu">
     <Variant title="Basic">
-      <Menu.Root closeOnSelect>
+      <Menu.Root closeOnSelect disabled>
         <Menu.Trigger>Open menu</Menu.Trigger>
         <Menu.Positioner>
           <Menu.Content lazy-mount>

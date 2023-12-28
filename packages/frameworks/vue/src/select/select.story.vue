@@ -111,7 +111,7 @@ const value = ref(['vue'])
               <ChevronDownIcon />
             </Select.Indicator>
           </Select.Trigger>
-          <Select.ClearTrigger>Clear</Select.ClearTrigger>
+          <Select.ClearTrigger disabled>Clear</Select.ClearTrigger>
         </Select.Control>
         <Teleport to="body">
           <Select.Positioner>
