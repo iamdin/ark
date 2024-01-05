@@ -1,6 +1,11 @@
 {
   "Root": {
     "count": { "type": "number", "isRequired": true, "description": "Total number of data items" },
+    "defaultPage": {
+      "type": "number",
+      "isRequired": false,
+      "description": "The initial page of the pagination."
+    },
     "dir": {
       "type": "'ltr' | 'rtl'",
       "defaultValue": "\"ltr\"",
@@ -24,6 +29,11 @@
     },
     "onPageChange": {
       "type": "(details: PageChangeDetails) => void",
+      "isRequired": false,
+      "description": "Called when the page number is changed, and it takes the resulting page number argument"
+    },
+    "onUpdate:page": {
+      "type": "(page: number) => void",
       "isRequired": false,
       "description": "Called when the page number is changed, and it takes the resulting page number argument"
     },
@@ -51,8 +61,8 @@
     }
   },
   "Item": {
-    "type": { "type": "'page'", "isRequired": true },
-    "value": { "type": "number", "isRequired": true }
+    "value": { "type": "number", "isRequired": true },
+    "type": { "type": "'page'", "isRequired": false }
   },
   "Ellipsis": { "index": { "type": "number", "isRequired": true } },
   "NextTrigger": { "asChild": { "type": "boolean", "isRequired": false } },

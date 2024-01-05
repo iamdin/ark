@@ -33,7 +33,7 @@ import './pagination.css'
       >
         <Pagination.PrevTrigger>Previous</Pagination.PrevTrigger>
         <template v-for="(page, index) in pages">
-          <Pagination.Item v-if="page.type === 'page'" :key="page" :value="page.value">
+          <Pagination.Item v-if="page.type === 'page'" :key="page.value" :value="page.value">
             {{ page.value }}
           </Pagination.Item>
           <Pagination.Ellipsis v-else :key="index" :index="index"> &#8230; </Pagination.Ellipsis>

@@ -1,10 +1,11 @@
 import type { ItemProps } from '@zag-js/pagination'
 import { defineComponent, type PropType } from 'vue'
 import { ark, type HTMLArkProps } from '../factory'
-import type { Assign } from '../types'
+import type { Assign, Optional } from '../types'
 import { usePaginationContext } from './pagination-context'
 
-export interface PaginationItemProps extends Assign<HTMLArkProps<'button'>, ItemProps> {}
+export interface PaginationItemProps
+  extends Assign<HTMLArkProps<'button'>, Optional<ItemProps, 'type'>> {}
 
 export const PaginationItem = defineComponent<PaginationItemProps>(
   (props, { slots, attrs }) => {

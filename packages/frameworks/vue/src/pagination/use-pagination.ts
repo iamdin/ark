@@ -5,7 +5,17 @@ import { useEnvironmentContext } from '../environment'
 import type { Optional } from '../types'
 import { useId } from '../utils'
 
-export interface UsePaginationProps extends Optional<pagination.Context, 'id'> {}
+export interface UsePaginationProps extends Optional<pagination.Context, 'id'> {
+  /**
+   * The initial page of the pagination.
+   */
+  defaultPage?: pagination.Context['page']
+  /**
+   * Called when the page number is changed, and it takes the resulting page number argument
+   */
+  'onUpdate:page'?: (page: pagination.PageChangeDetails['page']) => void
+}
+
 export interface UsePaginationReturn extends ComputedRef<pagination.Api<PropTypes>> {}
 
 export const usePagination = (
@@ -19,9 +29,11 @@ export const usePagination = (
     pagination.machine({
       ...context.value,
       id: context.value.id ?? useId().value,
+      page: props.page ?? props.defaultPage,
       getRootNode,
       onPageChange: (details) => {
         emit('page-change', details)
+        emit('update:page', details.page)
       },
     }),
     { context },

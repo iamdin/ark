@@ -34,5 +34,9 @@ export const props = {
   type: {
     type: String as PropType<Context['type']>,
   },
+  defaultPage: {
+    type: Number as PropType<Context['page']>,
+    default: 1,
+  },
 } as const
-export const emits = declareEmits(['page-change'])
+export const emits = declareEmits(['page-change', 'update:page'])
